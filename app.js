@@ -233,7 +233,7 @@
         '  trainer.service   loaded  <span class="t-ok">active  running</span>  procedural monster game\n' +
         '  voice.service     loaded  <span class="t-ok">active  running</span>  TTS voice pipeline\n' +
         '  avatar.service    loaded  <span class="t-ok">active  running</span>  VRM lip-sync avatar' },
-      { cmd: "echo $PHILOSOPHY", out: "  ship it. monitor it. let it run." }
+      { cmd: "uptime", out: '  19:04:17 up 231 days,  2 users,  load average: 0.31, 0.24, 0.19' }
     ];
 
     let html = "";
