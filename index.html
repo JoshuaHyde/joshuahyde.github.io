@@ -1,11 +1,290 @@
-<html lang="en">
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" contents="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Joshua Hyde — DevOps &amp; AI Systems Engineer</title>
+  <meta name="description" content="DevOps engineer and AI systems builder. Kubernetes, AWS, GCP, observability, and a self-hosted platform of AI agents, games, and pipelines that run 24/7.">
+  <meta property="og:title" content="Joshua Hyde — DevOps &amp; AI Systems Engineer">
+  <meta property="og:description" content="Production infrastructure by day, self-hosted AI agents, procedural games, and generative pipelines around the clock.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://joshuahyde.github.io/">
+  <meta name="theme-color" content="#0a0a0c">
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,300;1,9..144,400;1,9..144,500&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <h1>Joshua Hyde</h1>
-    <p>I'm a devops engineer who has experience working in various tooling, including but not limited to K8s, AWS, GCP, MongoDB, ElasticSearch, Grafana, Prometheus, Docker, and too many other things to name coherently.</p>
+
+  <!-- Ambient layers -->
+  <canvas id="dust" aria-hidden="true"></canvas>
+  <div class="ambient" aria-hidden="true">
+    <div class="ambient-glow ambient-glow--a"></div>
+    <div class="ambient-glow ambient-glow--b"></div>
+    <div class="ambient-glow ambient-glow--c"></div>
+  </div>
+  <div class="grain" aria-hidden="true"></div>
+  <div class="cursor" aria-hidden="true"><span class="cursor-dot"></span><span class="cursor-ring"></span></div>
+
+  <!-- Liquid gold nav -->
+  <nav class="lg-nav" id="lg-nav" aria-label="Primary">
+    <div class="lg-indicator" aria-hidden="true">
+      <span class="lg-glow"></span>
+      <span class="lg-clip"><span class="lg-conic"></span></span>
+      <span class="lg-plate"></span>
+    </div>
+    <a class="lg-btn is-active" href="#top" data-section="top" aria-label="Home">
+      <svg viewBox="0 0 24 24"><path d="M3.5 10.5 12 3.5l8.5 7"/><path d="M5.5 9.5V20a.9.9 0 0 0 .9.9h11.2a.9.9 0 0 0 .9-.9V9.5"/><path d="M9.8 20.6v-5.9a1 1 0 0 1 1-1h2.4a1 1 0 0 1 1 1v5.9"/></svg>
+      <span class="lg-tip">Home</span>
+    </a>
+    <span class="lg-divider" aria-hidden="true"></span>
+    <a class="lg-btn" href="#about" data-section="about" aria-label="About">
+      <svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="3.6"/><path d="M4.8 20.2c.9-3.8 3.8-5.8 7.2-5.8s6.3 2 7.2 5.8"/></svg>
+      <span class="lg-tip">About</span>
+    </a>
+    <span class="lg-divider" aria-hidden="true"></span>
+    <a class="lg-btn" href="#work" data-section="work" aria-label="Work">
+      <svg viewBox="0 0 24 24"><rect x="3.6" y="4.4" width="7.2" height="7.2" rx="1.6"/><rect x="13.2" y="4.4" width="7.2" height="7.2" rx="1.6"/><rect x="3.6" y="14" width="7.2" height="7.2" rx="1.6"/><rect x="13.2" y="14" width="7.2" height="7.2" rx="1.6"/></svg>
+      <span class="lg-tip">Work</span>
+    </a>
+    <span class="lg-divider" aria-hidden="true"></span>
+    <a class="lg-btn" href="#stack" data-section="stack" aria-label="Stack">
+      <svg viewBox="0 0 24 24"><path d="m12 3.6 8.4 4.4L12 12.4 3.6 8z"/><path d="m4.6 12.4-1 .6 8.4 4.4 8.4-4.4-1-.6"/><path d="m4.6 16.4-1 .6L12 21.4l8.4-4.4-1-.6"/></svg>
+      <span class="lg-tip">Stack</span>
+    </a>
+    <span class="lg-divider" aria-hidden="true"></span>
+    <a class="lg-btn" href="#contact" data-section="contact" aria-label="Contact">
+      <svg viewBox="0 0 24 24"><rect x="3.4" y="5.4" width="17.2" height="13.2" rx="2"/><path d="m4.4 6.8 7.6 6 7.6-6"/></svg>
+      <span class="lg-tip">Contact</span>
+    </a>
+    <span class="lg-divider lg-divider--toggle" aria-hidden="true"></span>
+    <button class="lg-btn lg-toggle" id="theme-toggle" type="button" aria-label="Toggle light and dark theme">
+      <svg class="icon-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2.8v2M12 19.2v2M2.8 12h2M19.2 12h2M5.5 5.5l1.4 1.4M17.1 17.1l1.4 1.4M18.5 5.5l-1.4 1.4M6.9 17.1l-1.4 1.4"/></svg>
+      <svg class="icon-moon" viewBox="0 0 24 24"><path d="M20.2 14.2A8.2 8.2 0 0 1 9.8 3.8a8.2 8.2 0 1 0 10.4 10.4Z"/></svg>
+      <span class="lg-tip">Theme</span>
+    </button>
+  </nav>
+
+  <header class="hero" id="top">
+    <p class="hero-overline reveal">DevOps · AI Systems · Self-Hosted Everything</p>
+    <h1 class="hero-name reveal" data-i="1">
+      <span class="hero-name-line">Joshua</span>
+      <span class="hero-name-line hero-name-line--gold">Hyde<span class="hero-dot">.</span></span>
+    </h1>
+    <p class="hero-sub reveal" data-i="2">I design, deploy, and run production systems — from Kubernetes clusters
+      to a self-hosted platform of AI agents that keeps working while I sleep.</p>
+    <div class="hero-cta reveal" data-i="3">
+      <a class="ring-btn magnetic" href="#work">
+        <span class="ring-glow"></span>
+        <span class="ring-clip"><span class="ring-conic"></span></span>
+        <span class="ring-plate"></span>
+        <span class="ring-label">See the work</span>
+      </a>
+      <a class="ghost-btn magnetic" href="https://github.com/JoshuaHyde" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.2a9.8 9.8 0 0 0-3.1 19.1c.5.1.7-.2.7-.5v-1.7c-2.8.6-3.4-1.2-3.4-1.2-.4-1.1-1.1-1.4-1.1-1.4-.9-.6.1-.6.1-.6 1 .1 1.5 1 1.5 1 .9 1.5 2.3 1.1 2.9.8.1-.6.3-1.1.6-1.3-2.2-.3-4.5-1.1-4.5-4.9 0-1.1.4-2 1-2.7-.1-.2-.4-1.2.1-2.6 0 0 .8-.3 2.7 1a9.3 9.3 0 0 1 4.9 0c1.9-1.3 2.7-1 2.7-1 .5 1.4.2 2.4.1 2.6.6.7 1 1.6 1 2.7 0 3.8-2.3 4.6-4.5 4.9.4.3.7.9.7 1.8v2.6c0 .3.2.6.7.5A9.8 9.8 0 0 0 12 2.2Z"/></svg>
+        GitHub
+      </a>
+    </div>
+    <div class="hero-scroll reveal" data-i="4" aria-hidden="true">
+      <span class="hero-scroll-line"></span>
+      <span class="hero-scroll-text">scroll</span>
+    </div>
+  </header>
+
+  <!-- Skills marquee -->
+  <div class="marquee" aria-hidden="true">
+    <div class="marquee-track">
+      <span>Kubernetes</span><i>◆</i><span>AWS</span><i>◆</i><span>GCP</span><i>◆</i><span>Docker</span><i>◆</i><span>Grafana</span><i>◆</i><span>Prometheus</span><i>◆</i><span>MongoDB</span><i>◆</i><span>Elasticsearch</span><i>◆</i><span>Cloudflare</span><i>◆</i><span>Tailscale</span><i>◆</i><span>TypeScript</span><i>◆</i><span>Three.js</span><i>◆</i><span>LLM Orchestration</span><i>◆</i><span>Vector Memory</span><i>◆</i>
+      <span>Kubernetes</span><i>◆</i><span>AWS</span><i>◆</i><span>GCP</span><i>◆</i><span>Docker</span><i>◆</i><span>Grafana</span><i>◆</i><span>Prometheus</span><i>◆</i><span>MongoDB</span><i>◆</i><span>Elasticsearch</span><i>◆</i><span>Cloudflare</span><i>◆</i><span>Tailscale</span><i>◆</i><span>TypeScript</span><i>◆</i><span>Three.js</span><i>◆</i><span>LLM Orchestration</span><i>◆</i><span>Vector Memory</span><i>◆</i>
+    </div>
+  </div>
+
+  <main>
+    <!-- About -->
+    <section class="section" id="about">
+      <div class="section-head reveal">
+        <span class="section-num">01</span>
+        <h2 class="section-title">The <em>operator</em></h2>
+      </div>
+      <div class="about-grid">
+        <div class="about-copy reveal" data-i="1">
+          <p class="about-lede">Infrastructure is a craft. I've spent my career keeping production systems
+            fast, observable, and boring to operate — Kubernetes on AWS and GCP, fleets of containers,
+            data layers in MongoDB and Elasticsearch, dashboards in Grafana wired to Prometheus.</p>
+          <p>Off the clock, the same discipline runs my own platform: a VPS that hosts AI agents with
+            local vector memory, a procedurally generated game, generative asset pipelines, and the
+            zero-trust network that ties it together. Everything on this page is something I actually
+            run — not a tutorial I followed once.</p>
+        </div>
+        <ul class="about-facts">
+          <li class="reveal" data-i="2"><span class="fact-k">Discipline</span><span class="fact-v">DevOps / SRE</span></li>
+          <li class="reveal" data-i="3"><span class="fact-k">Happy place</span><span class="fact-v">The terminal</span></li>
+          <li class="reveal" data-i="4"><span class="fact-k">Current obsession</span><span class="fact-v">Autonomous AI agents</span></li>
+          <li class="reveal" data-i="5"><span class="fact-k">Philosophy</span><span class="fact-v">If it can't survive a reboot, it isn't finished</span></li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- Work -->
+    <section class="section" id="work">
+      <div class="section-head reveal">
+        <span class="section-num">02</span>
+        <h2 class="section-title">Things I <em>run</em></h2>
+      </div>
+      <div class="cards">
+
+        <article class="card card--wide tilt reveal">
+          <div class="card-art card-art--agents" aria-hidden="true">
+            <div class="orbit orbit--1"></div><div class="orbit orbit--2"></div><div class="orbit orbit--3"></div>
+            <div class="orbit-core"></div>
+          </div>
+          <div class="card-body">
+            <p class="card-meta">24/7 · self-hosted · production</p>
+            <h3 class="card-title">AI Agent Platform</h3>
+            <p class="card-desc">A multi-agent platform living on my own VPS. Discord-native agents with
+              local vector memory — embeddings computed on-box, hybrid full-text + vector recall — orchestrating
+              multiple frontier models with scheduled autonomy, a TTS voice, and delegation pipelines that route
+              heavy work to coding agents. It has been online, remembering, and shipping for months.</p>
+            <p class="card-tags"><span>Node.js</span><span>sqlite-vec</span><span>systemd</span><span>Discord</span><span>LLM orchestration</span></p>
+          </div>
+        </article>
+
+        <article class="card tilt reveal" data-i="1">
+          <div class="card-art card-art--trainer" aria-hidden="true">
+            <span class="blob blob--a"></span><span class="blob blob--b"></span><span class="blob blob--c"></span>
+          </div>
+          <div class="card-body">
+            <p class="card-meta">game · engine-level</p>
+            <h3 class="card-title">Project Trainer</h3>
+            <p class="card-desc">A monster-raising game built from scratch in Three.js. Creatures are procedural —
+              compact genomes grow into SDF-blended bodies across twenty archetypes, with hand-rolled locomotion
+              (no physics engine), breeding genetics, and cloud saves.</p>
+            <p class="card-tags"><span>Three.js</span><span>TypeScript</span><span>GLSL</span><span>Vite</span></p>
+          </div>
+        </article>
+
+        <article class="card tilt reveal" data-i="2">
+          <div class="card-art card-art--biod" aria-hidden="true">
+            <span class="leaf leaf--a"></span><span class="leaf leaf--b"></span>
+          </div>
+          <div class="card-body">
+            <p class="card-meta">shipped · real business</p>
+            <h3 class="card-title">Bio D Products <a class="card-link" href="https://biodproducts.com" target="_blank" rel="noopener" aria-label="Visit biodproducts.com">↗</a></h3>
+            <p class="card-desc">Production site for a family manufacturing business founded in 1986 — designed,
+              built, and shipped end-to-end. Fully static Next.js on Netlify, fronted by Cloudflare, from catalog
+              and copy to DNS migration and WAF.</p>
+            <p class="card-tags"><span>Next.js</span><span>Tailwind</span><span>Netlify</span><span>Cloudflare</span></p>
+          </div>
+        </article>
+
+        <article class="card tilt reveal" data-i="1">
+          <div class="card-art card-art--pipeline" aria-hidden="true">
+            <span class="pipe-node"></span><span class="pipe-node"></span><span class="pipe-node"></span><span class="pipe-line"></span>
+          </div>
+          <div class="card-body">
+            <p class="card-meta">generative · automated</p>
+            <h3 class="card-title">Image → 3D Asset Pipeline</h3>
+            <p class="card-desc">Concept art to game-ready model without leaving the terminal: fast diffusion
+              roughs, a refinement pass, image-to-3D generation, then automated GLB optimization — feeding
+              characters and props straight into the engine.</p>
+            <p class="card-tags"><span>FLUX</span><span>Meshy</span><span>gltf-transform</span><span>Node.js</span></p>
+          </div>
+        </article>
+
+        <article class="card tilt reveal" data-i="2">
+          <div class="card-art card-art--vtuber" aria-hidden="true">
+            <span class="wave"></span><span class="wave wave--2"></span><span class="wave wave--3"></span>
+          </div>
+          <div class="card-body">
+            <p class="card-meta">realtime · 3D</p>
+            <h3 class="card-title">VTuber Avatar</h3>
+            <p class="card-desc">A rigged VRM avatar that lip-syncs my AI agent's voice replies in real time —
+              audio analysis driving visemes and idle motion in the browser. Because a platform this alive
+              deserves a face.</p>
+            <p class="card-tags"><span>Three.js</span><span>VRM</span><span>Web Audio</span></p>
+          </div>
+        </article>
+
+        <article class="card card--wide tilt reveal">
+          <div class="card-art card-art--lab" aria-hidden="true">
+            <span class="rack-line"></span><span class="rack-line"></span><span class="rack-line"></span><span class="rack-line"></span>
+            <span class="rack-pulse"></span>
+          </div>
+          <div class="card-body">
+            <p class="card-meta">the foundation</p>
+            <h3 class="card-title">The Lab</h3>
+            <p class="card-desc">Everything above runs on infrastructure I operate myself: a hardened VPS,
+              Cloudflare Tunnels with zero-trust access in front of every internal service, a Tailscale mesh
+              back home, a systemd fleet with automated deploy paths, and monitoring that pages me — not my users.
+              Uptime is a habit, not an accident.</p>
+            <p class="card-tags"><span>Linux</span><span>nginx</span><span>Cloudflare Zero Trust</span><span>Tailscale</span><span>systemd</span></p>
+          </div>
+        </article>
+
+      </div>
+    </section>
+
+    <!-- Stack -->
+    <section class="section" id="stack">
+      <div class="section-head reveal">
+        <span class="section-num">03</span>
+        <h2 class="section-title">The <em>arsenal</em></h2>
+      </div>
+      <div class="stack-grid">
+        <div class="stack-group reveal">
+          <h3 class="stack-name">Cloud &amp; Orchestration</h3>
+          <p class="stack-items"><span>Kubernetes</span><span>AWS</span><span>GCP</span><span>Docker</span></p>
+        </div>
+        <div class="stack-group reveal" data-i="1">
+          <h3 class="stack-name">Observability</h3>
+          <p class="stack-items"><span>Grafana</span><span>Prometheus</span><span>Alerting</span><span>SLOs</span></p>
+        </div>
+        <div class="stack-group reveal" data-i="2">
+          <h3 class="stack-name">Data</h3>
+          <p class="stack-items"><span>MongoDB</span><span>Elasticsearch</span><span>SQLite&nbsp;+&nbsp;vec</span></p>
+        </div>
+        <div class="stack-group reveal" data-i="3">
+          <h3 class="stack-name">Edge &amp; Network</h3>
+          <p class="stack-items"><span>Cloudflare</span><span>nginx</span><span>Tailscale</span><span>Zero&nbsp;Trust</span></p>
+        </div>
+        <div class="stack-group reveal" data-i="4">
+          <h3 class="stack-name">AI &amp; Agents</h3>
+          <p class="stack-items"><span>LLM&nbsp;orchestration</span><span>Vector&nbsp;memory&nbsp;/&nbsp;RAG</span><span>Embeddings</span><span>TTS&nbsp;pipelines</span></p>
+        </div>
+        <div class="stack-group reveal" data-i="5">
+          <h3 class="stack-name">Build</h3>
+          <p class="stack-items"><span>TypeScript</span><span>Node.js</span><span>Python</span><span>Next.js</span><span>Three.js</span><span>Bash</span></p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Contact -->
+    <section class="section section--contact" id="contact">
+      <div class="contact-inner">
+        <p class="contact-overline reveal">Got something that needs to run forever?</p>
+        <h2 class="contact-title reveal" data-i="1">Let's build something<br><em>that runs itself.</em></h2>
+        <div class="contact-cta reveal" data-i="2">
+          <a class="ring-btn ring-btn--lg magnetic" href="https://github.com/JoshuaHyde" target="_blank" rel="noopener">
+            <span class="ring-glow"></span>
+            <span class="ring-clip"><span class="ring-conic"></span></span>
+            <span class="ring-plate"></span>
+            <span class="ring-label">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.2a9.8 9.8 0 0 0-3.1 19.1c.5.1.7-.2.7-.5v-1.7c-2.8.6-3.4-1.2-3.4-1.2-.4-1.1-1.1-1.4-1.1-1.4-.9-.6.1-.6.1-.6 1 .1 1.5 1 1.5 1 .9 1.5 2.3 1.1 2.9.8.1-.6.3-1.1.6-1.3-2.2-.3-4.5-1.1-4.5-4.9 0-1.1.4-2 1-2.7-.1-.2-.4-1.2.1-2.6 0 0 .8-.3 2.7 1a9.3 9.3 0 0 1 4.9 0c1.9-1.3 2.7-1 2.7-1 .5 1.4.2 2.4.1 2.6.6.7 1 1.6 1 2.7 0 3.8-2.3 4.6-4.5 4.9.4.3.7.9.7 1.8v2.6c0 .3.2.6.7.5A9.8 9.8 0 0 0 12 2.2Z"/></svg>
+              github.com/JoshuaHyde
+            </span>
+          </a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <p>© <span id="year">2026</span> Joshua Hyde</p>
+    <p class="footer-note">Designed &amp; built from scratch — no frameworks, no templates.</p>
+  </footer>
+
+  <script src="app.js"></script>
 </body>
 </html>
