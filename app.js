@@ -143,7 +143,7 @@
     document.addEventListener("mousemove", e => {
       mx = e.clientX; my = e.clientY;
       if (!seen) { seen = true; rx = mx; ry = my; document.body.classList.add("has-cursor"); }
-      dot.style.transform = `translate(${mx - 3}px, ${my - 3}px)`;
+      dot.style.transform = `translate3d(${mx - 3}px, ${my - 3}px, 0)`;
     }, { passive: true });
 
     document.addEventListener("mouseover", e => {
@@ -151,10 +151,10 @@
     });
 
     (function followRing() {
-      rx += (mx - rx) * 0.16;
-      ry += (my - ry) * 0.16;
+      rx += (mx - rx) * 0.38;
+      ry += (my - ry) * 0.38;
       const size = cursor.classList.contains("is-hover") ? 26 : 17;
-      ring.style.transform = `translate(${rx - size}px, ${ry - size}px)`;
+      ring.style.transform = `translate3d(${rx - size}px, ${ry - size}px, 0)`;
       requestAnimationFrame(followRing);
     })();
   }
