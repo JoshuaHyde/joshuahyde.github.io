@@ -221,6 +221,55 @@
     })(last);
   }
 
+  /* ---------- terminal vignette ---------- */
+
+  const termBody = document.getElementById("term-body");
+  if (termBody) {
+    const PROMPT = '<span class="t-prompt">josh@lab:~$</span> ';
+    const script = [
+      { cmd: "systemctl --user list-units --state=running", out:
+        '  <span class="t-dim">UNIT              LOAD    ACTIVE  SUB      DESCRIPTION</span>\n' +
+        '  agents.service    loaded  <span class="t-ok">active  running</span>  AI agent platform\n' +
+        '  trainer.service   loaded  <span class="t-ok">active  running</span>  procedural monster game\n' +
+        '  voice.service     loaded  <span class="t-ok">active  running</span>  TTS voice pipeline\n' +
+        '  avatar.service    loaded  <span class="t-ok">active  running</span>  VRM lip-sync avatar' },
+      { cmd: "echo $PHILOSOPHY", out: "  ship it. monitor it. let it run." }
+    ];
+
+    let html = "";
+    const caret = '<span class="term-caret"></span>';
+    const sleep = ms => new Promise(r => setTimeout(r, ms));
+
+    async function runTerm() {
+      if (prefersReduced) {
+        termBody.innerHTML = script.map(s => PROMPT + s.cmd + "\n" + s.out).join("\n") + "\n" + PROMPT + caret;
+        return;
+      }
+      for (const step of script) {
+        html += PROMPT;
+        for (const ch of step.cmd) {
+          html += ch;
+          termBody.innerHTML = html + caret;
+          await sleep(24 + Math.random() * 40);
+        }
+        await sleep(260);
+        html += "\n" + step.out + "\n";
+        termBody.innerHTML = html + caret;
+        await sleep(520);
+      }
+      html += PROMPT;
+      termBody.innerHTML = html + caret;
+    }
+
+    const termIO = new IntersectionObserver(entries => {
+      if (entries.some(e => e.isIntersecting)) {
+        termIO.disconnect();
+        runTerm();
+      }
+    }, { threshold: 0.3 });
+    termIO.observe(termBody);
+  }
+
   /* ---------- footer year ---------- */
 
   document.getElementById("year").textContent = new Date().getFullYear();

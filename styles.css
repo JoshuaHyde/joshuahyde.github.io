@@ -663,6 +663,64 @@ main { position: relative; z-index: 1; }
 }
 .fact-v { text-align: right; font-size: 0.92rem; color: var(--text); }
 
+/* ---------- terminal ---------- */
+
+.term {
+  margin-top: 4rem;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  background: rgba(10, 10, 13, 0.72);
+  overflow: hidden;
+  box-shadow: 0 18px 50px rgba(0, 0, 0, 0.4);
+}
+[data-theme="light"] .term { background: rgba(24, 21, 16, 0.94); }
+
+.term-bar {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  padding: 0.7rem 1rem;
+  border-bottom: 1px solid var(--line);
+  background: rgba(255, 255, 255, 0.02);
+}
+.term-dot {
+  width: 10px; height: 10px;
+  border-radius: 50%;
+  background: #3a3740;
+}
+.term-dot:first-child { background: rgba(232, 175, 72, 0.65); }
+.term-title {
+  margin-left: 0.6rem;
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.08em;
+  color: var(--text-faint);
+}
+
+.term-body {
+  margin: 0;
+  padding: 1.1rem 1.2rem 1.3rem;
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  line-height: 1.75;
+  color: #b8b2a6;
+  min-height: 11.5em;
+  white-space: pre-wrap;
+  overflow-x: auto;
+}
+.term-body .t-prompt { color: var(--gold); }
+.term-body .t-ok { color: #8fc98f; }
+.term-body .t-dim { color: #6d685e; }
+.term-caret {
+  display: inline-block;
+  width: 8px; height: 1.05em;
+  vertical-align: text-bottom;
+  background: var(--gold);
+  animation: caret-blink 1s steps(1) infinite;
+}
+
+@keyframes caret-blink { 50% { opacity: 0; } }
+
 /* ---------- work cards ---------- */
 
 .cards {
