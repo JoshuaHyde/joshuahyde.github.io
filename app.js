@@ -136,14 +136,12 @@
 
   if (finePointer && !prefersReduced) {
     const cursor = document.querySelector(".cursor");
-    const dot = cursor.querySelector(".cursor-dot");
     const ring = cursor.querySelector(".cursor-ring");
     let mx = -100, my = -100, rx = -100, ry = -100, seen = false;
 
     document.addEventListener("mousemove", e => {
       mx = e.clientX; my = e.clientY;
-      if (!seen) { seen = true; rx = mx; ry = my; document.body.classList.add("has-cursor"); }
-      dot.style.transform = `translate3d(${mx - 3}px, ${my - 3}px, 0)`;
+      if (!seen) { seen = true; rx = mx; ry = my; }
     }, { passive: true });
 
     document.addEventListener("mouseover", e => {
@@ -151,8 +149,8 @@
     });
 
     (function followRing() {
-      rx += (mx - rx) * 0.38;
-      ry += (my - ry) * 0.38;
+      rx += (mx - rx) * 0.3;
+      ry += (my - ry) * 0.3;
       const size = cursor.classList.contains("is-hover") ? 26 : 17;
       ring.style.transform = `translate3d(${rx - size}px, ${ry - size}px, 0)`;
       requestAnimationFrame(followRing);

@@ -135,30 +135,23 @@ a { color: inherit; }
 
 .cursor { display: none; }
 
+/* decorative halo trailing the native cursor — the OS pointer is never hidden */
 @media (pointer: fine) {
   .cursor { display: block; position: fixed; inset: 0; z-index: 90; pointer-events: none; }
-  .cursor-dot, .cursor-ring {
+  .cursor-ring {
     position: absolute;
     top: 0; left: 0;
     border-radius: 50%;
     transform: translate(-100px, -100px);
     will-change: transform;
-  }
-  .cursor-dot {
-    width: 6px; height: 6px;
-    background: var(--gold);
-    box-shadow: 0 0 12px rgba(232, 175, 72, 0.8);
-  }
-  .cursor-ring {
     width: 34px; height: 34px;
-    border: 1px solid rgba(232, 175, 72, 0.4);
+    border: 1px solid rgba(232, 175, 72, 0.35);
     transition: width 0.25s ease, height 0.25s ease, border-color 0.25s ease;
   }
   .cursor.is-hover .cursor-ring {
     width: 52px; height: 52px;
-    border-color: rgba(232, 175, 72, 0.75);
+    border-color: rgba(232, 175, 72, 0.7);
   }
-  body.has-cursor, body.has-cursor a, body.has-cursor button { cursor: none; }
 }
 
 /* ============================================================
