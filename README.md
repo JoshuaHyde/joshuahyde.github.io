@@ -14,3 +14,6 @@ Notable details:
   reveals, 3D tilt cards, magnetic buttons, custom cursor.
 - Dark theme by default with a full light theme behind the toggle.
 - Respects `prefers-reduced-motion`; no horizontal overflow down to 320px.
+- Liquid metal (hero gem + contact banner) renders with WebGL2, adapted from
+  [paper-design/shaders](https://github.com/paper-design/shaders) (Apache-2.0) —
+  rose gold in dark mode, chrome in light mode.

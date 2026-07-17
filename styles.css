@@ -466,9 +466,19 @@ a { color: inherit; }
 .hero-gem {
   display: grid;
   place-items: center;
-  width: clamp(88px, 9vw, 118px);
+  width: clamp(120px, 13vw, 170px);
   aspect-ratio: 1;
-  margin-bottom: 1.6rem;
+  margin-bottom: 0.6rem;
+}
+/* when WebGL is running, the shader draws the diamond itself on a transparent canvas */
+.hero-gem-shape.is-live {
+  width: 100%;
+  transform: none;
+  border-radius: 0;
+  overflow: visible;
+  border-color: transparent;
+  box-shadow: none;
+  background: none;
 }
 .hero-gem-shape {
   width: 72%;
