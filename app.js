@@ -241,50 +241,70 @@ float noise(vec2 p) {
 }
 
 float fbm(vec2 p) {
-  float v = 0.0, a = 0.55;
-  for (int i = 0; i < 4; i++) {
+  float v = 0.0, a = 0.6;
+  for (int i = 0; i < 3; i++) {
     v += a * noise(p);
-    p = p * 1.9 + vec2(13.7, 7.1);
-    a *= 0.45;
+    p = p * 1.85 + vec2(13.7, 7.1);
+    a *= 0.42;
   }
+  return v;
+}
+
+float bell(float x, float c, float w) {
+  float d = (x - c) / w;
+  return exp(-d * d * 0.5);
+}
+
+float field(vec2 uv, vec2 q) {
+  return fbm(uv * 0.55 + q * 3.1);
+}
+
+/* env ramp: silver base, dark well at 0.5 with hot white rims */
+float rampC(float x) {
+  x = fract(x);
+  float v = 0.76;
+  v = mix(v, 1.14, bell(x, 0.335, 0.058) + bell(x, 0.665, 0.058));
+  v = mix(v, 0.02, bell(x, 0.5, 0.105));
+  return v;
+}
+
+/* rose gold: near-black base, champagne band with white core */
+float rampR(float x) {
+  x = fract(x);
+  float v = 0.055;
+  v = mix(v, 0.75, bell(x, 0.5, 0.10));
+  v = mix(v, 1.16, bell(x, 0.5, 0.034));
   return v;
 }
 
 void main() {
   vec2 uv = (gl_FragCoord.xy * 2.0 - uRes) / min(uRes.x, uRes.y) * uZoom;
-  uv.x *= 0.58;
-  float t = uTime * 0.05;
+  uv.x *= 0.62;
+  float t = uTime * 0.045;
 
-  vec2 q = vec2(fbm(uv * 0.7 + vec2(t * 0.9, t * 0.4)),
-                fbm(uv * 0.7 + vec2(4.7, 2.3) - t * 0.6));
-  float n = fbm(uv * 0.8 + q * 2.8 + vec2(t * 0.3, 0.0));
+  vec2 q = vec2(fbm(uv * 0.40 + vec2(t * 0.8, t * 0.35)),
+                fbm(uv * 0.42 + vec2(4.7, 2.3) - t * 0.55));
 
-  float x = fract(n * 1.5 - t * 0.7);
+  float e = 0.05;
+  float h  = field(uv, q);
+  float hx = field(uv + vec2(e, 0.0), q);
+  float hy = field(uv + vec2(0.0, e), q);
+  vec3 n = normalize(vec3((h - hx) / e * 1.4, (h - hy) / e * 1.4, 1.0));
 
-  vec3 base, mid, hi, fa, fb;
+  float x = h * 1.65 + n.y * 0.34 + n.x * 0.12 + uv.x * 0.06 + uv.y * 0.05 - t * 0.5;
+  float dsp = 0.009;
+
+  vec3 col;
   if (uPal < 0.5) {
-    base = vec3(0.09, 0.095, 0.11);
-    mid  = vec3(0.62, 0.65, 0.70);
-    hi   = vec3(1.0, 1.0, 1.0);
-    fa   = vec3(0.42, 0.52, 1.0);
-    fb   = vec3(1.0, 0.62, 0.24);
+    vec3 m = vec3(rampC(x - dsp), rampC(x), rampC(x + dsp));
+    col = clamp(m, 0.0, 1.0) * vec3(0.965, 0.975, 1.0);
   } else {
-    base = vec3(0.11, 0.05, 0.04);
-    mid  = vec3(0.62, 0.36, 0.28);
-    hi   = vec3(1.0, 0.92, 0.82);
-    fa   = vec3(1.0, 0.45, 0.55);
-    fb   = vec3(1.0, 0.76, 0.34);
+    vec3 m = vec3(rampR(x - dsp), rampR(x), rampR(x + dsp));
+    col = m * vec3(1.0, 0.80, 0.58);
+    col += vec3(0.30, 0.26, 0.24) * pow(max(m.g, 0.0), 5.0);
+    col = clamp(col, 0.0, 1.0);
+    col += vec3(0.05, 0.018, 0.012);
   }
-
-  float mMid = smoothstep(0.26, 0.44, x) * (1.0 - smoothstep(0.56, 0.74, x));
-  float w    = smoothstep(0.44, 0.49, x) * (1.0 - smoothstep(0.51, 0.56, x));
-  float mA   = smoothstep(0.405, 0.43, x) * (1.0 - smoothstep(0.43, 0.455, x));
-  float mB   = smoothstep(0.545, 0.57, x) * (1.0 - smoothstep(0.57, 0.595, x));
-
-  vec3 col = base;
-  col = mix(col, mid, mMid);
-  col += fa * mA * 0.9 + fb * mB * 0.9;
-  col = mix(col, hi, w);
 
   gl_FragColor = vec4(col, 1.0);
 }
