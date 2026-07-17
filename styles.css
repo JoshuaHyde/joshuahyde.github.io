@@ -470,8 +470,9 @@ a { color: inherit; }
   aspect-ratio: 1;
   margin-bottom: 0.6rem;
 }
-/* when WebGL is running, the shader draws the diamond itself on a transparent canvas */
-.hero-gem-shape.is-live {
+/* when WebGL is running, the shader draws the diamond itself on a transparent canvas;
+   selector carries the theme attribute so the light-theme fallback rule can't outrank it */
+:root .hero-gem-shape.is-live {
   width: 100%;
   transform: none;
   border-radius: 0;
