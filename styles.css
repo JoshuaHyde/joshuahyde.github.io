@@ -19,7 +19,7 @@
   --card: rgba(255, 255, 255, 0.025);
   --shadow: 0 24px 70px rgba(0, 0, 0, 0.55);
   --ease-spring: cubic-bezier(0.34, 1.2, 0.64, 1);
-  --font-display: "Fraunces", Georgia, serif;
+  --font-display: "Playfair Display", Georgia, serif;
   --font-body: "Inter", system-ui, sans-serif;
   --font-mono: "JetBrains Mono", ui-monospace, monospace;
 }
@@ -482,7 +482,7 @@ a { color: inherit; }
 .hero-name-line { display: block; }
 .hero-name-line--gold {
   font-style: italic;
-  font-weight: 300;
+  font-weight: 400;
   background: linear-gradient(100deg,
     var(--gold-warm) 0%,
     var(--gold-light) 28%,
@@ -623,7 +623,7 @@ main { position: relative; z-index: 1; }
 }
 .section-title em {
   font-style: italic;
-  font-weight: 300;
+  font-weight: 400;
   color: var(--gold);
 }
 
@@ -1120,7 +1120,7 @@ main { position: relative; z-index: 1; }
 }
 .contact-title em {
   font-style: italic;
-  font-weight: 300;
+  font-weight: 400;
   background: linear-gradient(100deg, var(--gold-warm), var(--gold-light), var(--gold-warm));
   background-size: 220% 100%;
   -webkit-background-clip: text;
