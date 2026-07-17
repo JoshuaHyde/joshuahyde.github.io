@@ -481,8 +481,10 @@ a { color: inherit; }
 }
 .hero-name-line { display: block; }
 .hero-name-line--gold {
-  font-style: italic;
   font-weight: 400;
+  /* background-clip: text only paints within the box; make room for the y descender */
+  padding-bottom: 0.18em;
+  margin-bottom: -0.18em;
   background: linear-gradient(100deg,
     var(--gold-warm) 0%,
     var(--gold-light) 28%,
