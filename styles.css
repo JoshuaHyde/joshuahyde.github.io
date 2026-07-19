@@ -1125,6 +1125,151 @@ main { position: relative; z-index: 1; }
   transform: translateY(-2px);
 }
 
+/* ---------- spiral interlude ---------- */
+
+.spiral-band {
+  position: relative;
+  z-index: 1;
+  margin-top: 7rem;
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+  background: rgba(255, 255, 255, 0.012);
+}
+[data-theme="light"] .spiral-band { background: rgba(25, 21, 17, 0.02); }
+
+.spiral-inner {
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: 6.5rem 24px;
+  display: grid;
+  grid-template-columns: 1fr 0.92fr;
+  gap: 4.5rem;
+  align-items: center;
+}
+
+.spiral-overline {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--text-faint);
+  margin-bottom: 1.5rem;
+}
+
+.spiral-title {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: clamp(1.8rem, 3.6vw, 2.6rem);
+  line-height: 1.16;
+  letter-spacing: -0.01em;
+  margin-bottom: 1.5rem;
+}
+.spiral-title em { font-style: italic; font-weight: 400; color: var(--gold); }
+
+.spiral-desc { color: var(--text-dim); max-width: 46ch; }
+.spiral-desc i, .spiral-hint i { font-style: italic; color: var(--gold); }
+
+.spiral-formula {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.7rem;
+  margin: 2rem 0 1.5rem;
+  font-family: var(--font-display);
+  font-size: clamp(0.8rem, 1.35vw, 1rem);
+  line-height: 1.3;
+  color: var(--text);
+  /* Playfair defaults to oldstyle figures, which read as "1ooo" in an equation */
+  font-variant-numeric: lining-nums;
+  font-feature-settings: "lnum" 1;
+}
+.spiral-formula i { font-style: italic; }
+.f-lhs { white-space: nowrap; }
+
+.f-vec {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.3rem;
+  padding: 0.6rem 1.2rem;
+}
+.f-vec::before, .f-vec::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 8px;
+  border-top: 1px solid var(--gold-warm);
+  border-bottom: 1px solid var(--gold-warm);
+  opacity: 0.75;
+}
+.f-vec::before { left: 0; border-left: 1px solid var(--gold-warm); }
+.f-vec::after { right: 0; border-right: 1px solid var(--gold-warm); }
+.f-row { white-space: nowrap; }
+.f-row sup { font-size: 0.68em; }
+
+.f-frac {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  line-height: 1.2;
+}
+.f-num { padding: 0 0.4rem 0.05rem; border-bottom: 1px solid currentColor; }
+.f-den { padding: 0.05rem 0.4rem 0; }
+
+.spiral-hint, .spiral-credit {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.06em;
+  color: var(--text-faint);
+}
+.spiral-hint { margin-bottom: 0.5rem; }
+.spiral-credit a { color: var(--text-dim); text-decoration: underline; text-underline-offset: 3px; }
+.spiral-credit a:hover { color: var(--gold); }
+@media (pointer: coarse) { .spiral-hint { display: none; } }
+
+.spiral-stage {
+  position: relative;
+  width: 100%;
+  max-width: 520px;
+  margin: 0 auto;
+  aspect-ratio: 1;
+}
+.spiral-stage::before {
+  content: "";
+  position: absolute;
+  inset: 4%;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(232, 175, 72, 0.13), transparent 62%);
+  filter: blur(26px);
+  pointer-events: none;
+}
+[data-theme="light"] .spiral-stage::before {
+  background: radial-gradient(circle, rgba(163, 113, 29, 0.14), transparent 62%);
+}
+.spiral-stage canvas {
+  position: relative;
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+.spiral-readout {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0.5%;
+  display: flex;
+  justify-content: center;
+  gap: 0.55rem;
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.14em;
+  color: var(--text-faint);
+  pointer-events: none;
+}
+.spiral-readout span:first-child { color: var(--gold-warm); }
+
 /* ---------- contact ---------- */
 
 .section--contact {
@@ -1259,6 +1404,8 @@ main { position: relative; z-index: 1; }
   .about-grid { grid-template-columns: 1fr; gap: 2.6rem; }
   .cards { grid-template-columns: 1fr; }
   .stack-grid { grid-template-columns: 1fr 1fr; }
+  .spiral-inner { grid-template-columns: 1fr; gap: 3rem; }
+  .spiral-stage { order: -1; max-width: 420px; }
 }
 
 @media (max-width: 620px) {
@@ -1282,6 +1429,10 @@ main { position: relative; z-index: 1; }
   .hero-scroll { display: none; }
   .premium-banner { padding: 3.6rem 1.1rem; border-radius: 24px; }
   .footer { padding-bottom: 6.5rem; }
+  .spiral-band { margin-top: 5rem; }
+  .spiral-inner { padding: 4.5rem 24px; }
+  .spiral-formula { font-size: 0.78rem; gap: 0.5rem; }
+  .f-vec { padding: 0.5rem 0.8rem; }
 }
 
 @media (max-width: 380px) {

@@ -270,6 +270,37 @@
       </div>
     </section>
 
+    <!-- Spiral interlude -->
+    <div class="spiral-band" id="spiral">
+      <div class="spiral-inner">
+        <div class="spiral-copy">
+          <p class="spiral-overline reveal">Aside · Generative · Canvas 2D</p>
+          <h2 class="spiral-title reveal" data-i="1">Four thousand points,<br><em>one equation</em></h2>
+          <p class="spiral-desc reveal" data-i="2">I came across this curve online and wanted to see it run
+            in a browser. Each frame evaluates the three expressions below for <i>n</i> = 1 to 4,000 and joins
+            the points in order. The only thing that changes between frames is <i>t</i>. It runs on plain 2D
+            canvas with no libraries.</p>
+          <div class="spiral-formula reveal" data-i="3" role="img"
+               aria-label="F of n and t equals the column vector: n to the three halves over n plus one thousand; sine of point one n times sine of 83.3333 t; point one n t.">
+            <span class="f-lhs"><i>F</i>(<i>n</i>,<i>t</i>) =</span>
+            <span class="f-vec">
+              <span class="f-row"><span class="f-frac"><span class="f-num"><i>n</i><sup>3/2</sup></span><span class="f-den"><i>n</i> + 1000</span></span></span>
+              <span class="f-row">sin(0.1<i>n</i> sin(83.3333<i>t</i>))</span>
+              <span class="f-row">0.1<i>n</i><i>t</i></span>
+            </span>
+          </div>
+          <p class="spiral-hint reveal" data-i="4">Move your cursor across the figure to take over <i>t</i>.</p>
+          <p class="spiral-credit reveal" data-i="4">Curve from a clip by
+            <a href="https://x.com/Rainmaker1973/status/2078547852322549868" target="_blank" rel="noopener">@Rainmaker1973</a>,
+            credited to fascinating.fractals.</p>
+        </div>
+        <div class="spiral-stage reveal" data-i="2">
+          <canvas id="spiral-fig" aria-hidden="true"></canvas>
+          <p class="spiral-readout" aria-hidden="true"><span>t</span> <span id="spiral-t">0.1800</span></p>
+        </div>
+      </div>
+    </div>
+
     <!-- Stack -->
     <section class="section" id="stack">
       <div class="section-head reveal">

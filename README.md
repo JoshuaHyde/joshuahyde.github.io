@@ -17,3 +17,8 @@ Notable details:
 - Liquid metal (hero gem + contact banner) renders with WebGL2, adapted from
   [paper-design/shaders](https://github.com/paper-design/shaders) (Apache-2.0) —
   rose gold in dark mode, chrome in light mode.
+- Spiral interlude — a 4,000-point parametric curve plotted on 2D canvas, read as
+  spherical coordinates `(r, φ, θ)` viewed down the polar axis. Auto-fits and
+  animates on `t`, and hands `t` over to the pointer on hover. Curve seen in a
+  clip by [@Rainmaker1973](https://x.com/Rainmaker1973/status/2078547852322549868),
+  credited there to fascinating.fractals.

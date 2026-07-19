@@ -724,6 +724,139 @@ void main() {
     }
   }
 
+  /* ---------- spiral figure ----------
+     F(n,t) = [ n^(3/2)/(n+1000), sin(0.1n sin(83.3333t)), 0.1nt ]
+     read as spherical (r, phi, theta) and viewed down the polar axis,
+     so the radius in the plane is r*sin(phi). */
+
+  const spiralCv = document.getElementById("spiral-fig");
+  if (spiralCv) {
+    const sctx = spiralCv.getContext("2d");
+    const stage = spiralCv.parentElement;
+    const readout = document.getElementById("spiral-t");
+    const N = 4000;
+    const RATE = 0.0025;   /* t per second — one sin(83.3333t) cycle takes ~30s */
+    const SCRUB = 0.09;    /* t swept from one edge of the figure to the other */
+    const T_MIN = 0.12, T_MAX = 1.2;
+
+    const radii = new Float64Array(N);
+    for (let i = 0; i < N; i++) { const n = i + 1; radii[i] = Math.pow(n, 1.5) / (n + 1000); }
+    const xs = new Float64Array(N), ys = new Float64Array(N);
+
+    let t = 0.18, dir = 1, target = null, base = 0, spin = 0;
+    let dpr = 1, visible = true;
+
+    function sizeSpiral() {
+      dpr = Math.min(2, window.devicePixelRatio || 1);
+      const w = Math.round(stage.clientWidth * dpr);
+      const h = Math.round(stage.clientHeight * dpr);
+      if (w > 0 && h > 0 && (spiralCv.width !== w || spiralCv.height !== h)) {
+        spiralCv.width = w;
+        spiralCv.height = h;
+      }
+    }
+
+    function drawSpiral() {
+      const W = spiralCv.width, H = spiralCv.height;
+      if (!W || !H) return;
+      const s = Math.sin(83.33333 * t);
+
+      let far = 0;
+      for (let i = 0; i < N; i++) {
+        const n = i + 1;
+        const rho = radii[i] * Math.sin(Math.sin(0.1 * n * s));
+        const a = 0.1 * n * t;
+        const x = rho * Math.cos(a), y = rho * Math.sin(a);
+        xs[i] = x; ys[i] = y;
+        const d = x * x + y * y;
+        if (d > far) far = d;
+      }
+      far = Math.sqrt(far) || 1;
+
+      const light = root.dataset.theme === "light";
+      const k = (Math.min(W, H) * 0.46) / far;
+
+      sctx.setTransform(1, 0, 0, 1, 0, 0);
+      sctx.clearRect(0, 0, W, H);
+      sctx.translate(W / 2, H / 2);
+      sctx.rotate(spin);
+
+      sctx.beginPath();
+      for (let i = 0; i < N; i++) {
+        const x = xs[i] * k, y = -ys[i] * k;
+        i ? sctx.lineTo(x, y) : sctx.moveTo(x, y);
+      }
+
+      const edge = Math.min(W, H) * 0.5;
+      const grad = sctx.createRadialGradient(0, 0, 0, 0, 0, edge);
+      if (light) {
+        grad.addColorStop(0, "rgba(110, 74, 16, 0.92)");
+        grad.addColorStop(0.35, "rgba(130, 89, 22, 0.76)");
+        grad.addColorStop(1, "rgba(86, 59, 15, 0.54)");
+      } else {
+        grad.addColorStop(0, "rgba(255, 240, 205, 0.8)");
+        grad.addColorStop(0.35, "rgba(232, 175, 72, 0.52)");
+        grad.addColorStop(1, "rgba(196, 151, 70, 0.34)");
+      }
+
+      sctx.lineJoin = "round";
+      sctx.globalCompositeOperation = light ? "source-over" : "lighter";
+      sctx.lineWidth = 3.2 * dpr;
+      sctx.strokeStyle = light ? "rgba(120, 82, 20, 0.045)" : "rgba(232, 175, 72, 0.05)";
+      sctx.stroke();
+      sctx.lineWidth = (light ? 1.05 : 0.9) * dpr;
+      sctx.strokeStyle = grad;
+      sctx.stroke();
+      sctx.globalCompositeOperation = "source-over";
+    }
+
+    sizeSpiral();
+
+    const onSpiralResize = () => { sizeSpiral(); if (prefersReduced) drawSpiral(); };
+    if ("ResizeObserver" in window) new ResizeObserver(onSpiralResize).observe(stage);
+    else window.addEventListener("resize", onSpiralResize);
+
+    if (prefersReduced) {
+      drawSpiral();
+      new MutationObserver(drawSpiral).observe(root, { attributes: true, attributeFilter: ["data-theme"] });
+    } else {
+      new IntersectionObserver(entries => {
+        for (const e of entries) visible = e.isIntersecting;
+      }, { rootMargin: "120px" }).observe(spiralCv);
+
+      if (finePointer) {
+        stage.addEventListener("pointerenter", () => { base = t; });
+        stage.addEventListener("pointermove", e => {
+          const r = stage.getBoundingClientRect();
+          target = base + ((e.clientX - r.left) / r.width - 0.5) * SCRUB;
+        });
+        stage.addEventListener("pointerleave", () => { target = null; });
+      }
+
+      let last = performance.now(), shown = 0;
+      (function spiralFrame(ms) {
+        const dt = Math.min(0.05, (ms - last) / 1000);
+        last = ms;
+        if (visible) {
+          if (target === null) {
+            t += RATE * dir * dt;
+            if (t > T_MAX) dir = -1;
+            else if (t < T_MIN) dir = 1;
+          } else {
+            t += (target - t) * Math.min(1, dt * 7);
+          }
+          spin += 0.045 * dt;
+          drawSpiral();
+          if (readout && ms - shown > 90) {
+            readout.textContent = t.toFixed(4);
+            shown = ms;
+          }
+        }
+        requestAnimationFrame(spiralFrame);
+      })(last);
+    }
+  }
+
   /* ---------- terminal vignette ---------- */
 
   const termBody = document.getElementById("term-body");
