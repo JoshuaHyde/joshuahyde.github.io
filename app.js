@@ -735,15 +735,18 @@ void main() {
     const stage = spiralCv.parentElement;
     const readout = document.getElementById("spiral-t");
     const N = 4000;
-    const RATE = 0.0025;   /* t per second — one sin(83.3333t) cycle takes ~30s */
-    const SCRUB = 0.09;    /* t swept from one edge of the figure to the other */
+    /* Both the angle (0.1nt) and the modulation phase (0.1n sin(83.3333t)) carry a
+       factor of n, so at n = 4000 a step in t is amplified 400x — and the 83.3333
+       inside the sine amplifies it again. Anything above ~3e-5/s moves points tens
+       to hundreds of pixels per frame and reads as strobing rather than motion. */
+    const RATE = 0.000025;
     const T_MIN = 0.12, T_MAX = 1.2;
 
     const radii = new Float64Array(N);
     for (let i = 0; i < N; i++) { const n = i + 1; radii[i] = Math.pow(n, 1.5) / (n + 1000); }
     const xs = new Float64Array(N), ys = new Float64Array(N);
 
-    let t = 0.18, dir = 1, target = null, base = 0, spin = 0;
+    let t = 0.18, dir = 1, spin = 0;
     let dpr = 1, visible = true;
 
     function sizeSpiral() {
@@ -824,31 +827,18 @@ void main() {
         for (const e of entries) visible = e.isIntersecting;
       }, { rootMargin: "120px" }).observe(spiralCv);
 
-      if (finePointer) {
-        stage.addEventListener("pointerenter", () => { base = t; });
-        stage.addEventListener("pointermove", e => {
-          const r = stage.getBoundingClientRect();
-          target = base + ((e.clientX - r.left) / r.width - 0.5) * SCRUB;
-        });
-        stage.addEventListener("pointerleave", () => { target = null; });
-      }
-
       let last = performance.now(), shown = 0;
       (function spiralFrame(ms) {
         const dt = Math.min(0.05, (ms - last) / 1000);
         last = ms;
         if (visible) {
-          if (target === null) {
-            t += RATE * dir * dt;
-            if (t > T_MAX) dir = -1;
-            else if (t < T_MIN) dir = 1;
-          } else {
-            t += (target - t) * Math.min(1, dt * 7);
-          }
+          t += RATE * dir * dt;
+          if (t > T_MAX) dir = -1;
+          else if (t < T_MIN) dir = 1;
           spin += 0.045 * dt;
           drawSpiral();
           if (readout && ms - shown > 90) {
-            readout.textContent = t.toFixed(4);
+            readout.textContent = t.toFixed(5);
             shown = ms;
           }
         }

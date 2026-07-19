@@ -1167,7 +1167,7 @@ main { position: relative; z-index: 1; }
 .spiral-title em { font-style: italic; font-weight: 400; color: var(--gold); }
 
 .spiral-desc { color: var(--text-dim); max-width: 46ch; }
-.spiral-desc i, .spiral-hint i { font-style: italic; color: var(--gold); }
+.spiral-desc i { font-style: italic; color: var(--gold); }
 
 .spiral-formula {
   display: flex;
@@ -1218,16 +1218,14 @@ main { position: relative; z-index: 1; }
 .f-num { padding: 0 0.4rem 0.05rem; border-bottom: 1px solid currentColor; }
 .f-den { padding: 0.05rem 0.4rem 0; }
 
-.spiral-hint, .spiral-credit {
+.spiral-credit {
   font-family: var(--font-mono);
   font-size: 0.7rem;
   letter-spacing: 0.06em;
   color: var(--text-faint);
 }
-.spiral-hint { margin-bottom: 0.5rem; }
 .spiral-credit a { color: var(--text-dim); text-decoration: underline; text-underline-offset: 3px; }
 .spiral-credit a:hover { color: var(--gold); }
-@media (pointer: coarse) { .spiral-hint { display: none; } }
 
 .spiral-stage {
   position: relative;
