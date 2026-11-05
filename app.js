@@ -157,68 +157,6 @@
     })();
   }
 
-  /* ---------- golden dust canvas ---------- */
-
-  const canvas = document.getElementById("dust");
-  if (canvas && !prefersReduced) {
-    const ctx = canvas.getContext("2d");
-    let W, H, particles = [];
-    let pmx = 0.5, pmy = 0.5;
-
-    function resize() {
-      W = canvas.width = window.innerWidth;
-      H = canvas.height = window.innerHeight;
-      const target = Math.min(150, Math.round((W * H) / 14000));
-      particles = Array.from({ length: target }, () => ({
-        x: Math.random() * W,
-        y: Math.random() * H,
-        z: 0.25 + Math.random() * 0.75,          /* depth: parallax + size */
-        r: 0.5 + Math.random() * 1.3,
-        a: 0.15 + Math.random() * 0.5,
-        tw: Math.random() * Math.PI * 2,          /* twinkle phase */
-        ts: 0.4 + Math.random() * 1.2,            /* twinkle speed */
-        vx: (Math.random() - 0.5) * 0.08,
-        vy: -0.03 - Math.random() * 0.12
-      }));
-    }
-
-    window.addEventListener("resize", resize);
-    document.addEventListener("mousemove", e => {
-      pmx = e.clientX / W;
-      pmy = e.clientY / H;
-    }, { passive: true });
-
-    resize();
-
-    let last = performance.now();
-    (function frame(now) {
-      const dt = Math.min(40, now - last) / 16.7;
-      last = now;
-      ctx.clearRect(0, 0, W, H);
-      const light = root.dataset.theme === "light";
-      const [cr, cg, cb] = light ? [138, 95, 24] : [232, 175, 72];
-
-      for (const p of particles) {
-        p.x += p.vx * dt;
-        p.y += p.vy * dt * p.z;
-        p.tw += 0.02 * p.ts * dt;
-        if (p.y < -4) { p.y = H + 4; p.x = Math.random() * W; }
-        if (p.x < -4) p.x = W + 4;
-        if (p.x > W + 4) p.x = -4;
-
-        const ox = (pmx - 0.5) * 26 * p.z;
-        const oy = (pmy - 0.5) * 26 * p.z;
-        const alpha = p.a * (0.55 + 0.45 * Math.sin(p.tw)) * (light ? 0.55 : 1);
-
-        ctx.beginPath();
-        ctx.arc(p.x + ox, p.y + oy, p.r * p.z, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(${cr},${cg},${cb},${alpha.toFixed(3)})`;
-        ctx.fill();
-      }
-      requestAnimationFrame(frame);
-    })(last);
-  }
-
   /* ---------- liquid metal ----------
      Adapted from paper-design/shaders "liquid metal" (Apache-2.0)
      https://github.com/paper-design/shaders */
