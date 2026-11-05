@@ -23,7 +23,7 @@
 <body>
 
   <!-- Ambient layers -->
-  <canvas id="dust" aria-hidden="true"></canvas>
+  <canvas id="creature-background" aria-hidden="true"></canvas>
   <div class="ambient" aria-hidden="true">
     <div class="ambient-glow ambient-glow--a"></div>
     <div class="ambient-glow ambient-glow--b"></div>
@@ -31,6 +31,7 @@
   </div>
   <div class="grain" aria-hidden="true"></div>
   <div class="cursor" aria-hidden="true"><span class="cursor-ring"></span></div>
+  <button class="life-toggle" type="button" hidden aria-pressed="false">Pause aquatic life</button>
 
   <!-- Liquid gold nav -->
   <nav class="lg-nav" id="lg-nav" aria-label="Primary">
@@ -360,11 +361,28 @@
     </section>
   </main>
 
+  <section class="pond-section" id="pond" aria-labelledby="pond-title">
+    <div class="pond-heading">
+      <div>
+        <p class="pond-overline">A little life below the surface</p>
+        <h2 id="pond-title">The quiet <em>pond.</em></h2>
+      </div>
+      <p>Stay a while. There’s no hurry here.</p>
+    </div>
+    <div class="pond-water">
+      <canvas id="pond-life" aria-hidden="true"></canvas>
+      <div class="pond-shore" aria-hidden="true"></div>
+      <span class="pond-caption">Koi, little wanderers &amp; drifting jellyfish</span>
+    </div>
+    <p class="pond-access">An ornamental pond with freely swimming fish and jellyfish. Use the aquatic life control to pause or resume both habitats.</p>
+  </section>
+
   <footer class="footer">
     <p>© <span id="year">2026</span> Joshua Hyde</p>
     <p class="footer-note">Designed &amp; built from scratch — no frameworks, no templates.</p>
   </footer>
 
   <script src="app.js" defer></script>
+  <script src="aquatic.js" defer></script>
 </body>
 </html>

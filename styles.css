@@ -73,11 +73,84 @@ a { color: inherit; }
 
 /* ---------- ambient layers ---------- */
 
-#dust {
+#creature-background {
   position: fixed;
   inset: 0;
+  width: 100%;
+  height: 100%;
   z-index: 0;
   pointer-events: none;
+}
+
+.life-toggle {
+  position: fixed;
+  bottom: 22px;
+  right: 24px;
+  z-index: 65;
+  min-height: 44px;
+  padding: 0.65rem 1rem;
+  border: 1px solid var(--line);
+  border-radius: 30px;
+  background: var(--bg-raise);
+  color: var(--text-dim);
+  font: 0.65rem var(--font-mono);
+  cursor: pointer;
+  box-shadow: 0 4px 20px #0002;
+}
+.life-toggle:hover { color: var(--gold); border-color: var(--gold-warm); }
+.life-toggle:disabled { cursor: default; color: var(--text-dim); }
+
+/* The habitat is separate from the viewport-wide, abstract swimmers. */
+.pond-section {
+  position: relative;
+  z-index: 2;
+  padding: 4rem max(24px, calc((100vw - 1072px) / 2)) 2rem;
+  margin-top: 3rem;
+  background: var(--bg);
+  border-top: 1px solid var(--line);
+}
+.pond-heading { display: flex; align-items: end; justify-content: space-between; gap: 2rem; margin-bottom: 2rem; }
+.pond-overline { font: 0.65rem var(--font-mono); text-transform: uppercase; letter-spacing: 0.16em; color: var(--gold-warm); margin-bottom: 0.8rem; }
+.pond-heading h2 { font: 400 clamp(2.3rem, 5vw, 3.6rem)/1.1 var(--font-display); letter-spacing: -0.035em; }
+.pond-heading h2 em { color: var(--gold); font-weight: 400; }
+.pond-heading > p { font-size: 0.8rem; color: var(--text-dim); padding-bottom: 0.3rem; }
+.pond-water {
+  position: relative;
+  height: clamp(380px, 44vw, 520px);
+  overflow: hidden;
+  isolation: isolate;
+  border: 1px solid #9c75384f;
+  border-radius: 46% 42% 36% 34% / 13% 17% 15% 12%;
+  background: radial-gradient(ellipse at 38% 26%, #352c1f 0, #161b18 42%, #0c1110 80%);
+  box-shadow: inset 0 5px 16px #000b, 0 1px 0 #dbb66a40, 0 24px 60px #0003;
+}
+[data-theme="light"] .pond-water {
+  background: radial-gradient(ellipse at 38% 26%, #eee5ce 0, #cbd0b9 45%, #a8b3a0 100%);
+  border-color: #8a6f3b70;
+  box-shadow: inset 0 5px 18px #59604438, 0 1px 0 #fff9, 0 24px 60px #5a4e2014;
+}
+#pond-life { display: block; width: 100%; height: 100%; pointer-events: none; }
+.pond-shore {
+  position: absolute; inset: 12px; border-radius: inherit; pointer-events: none;
+  border: 1px solid #dcb87d18;
+  box-shadow: inset 0 0 50px #020a0680;
+}
+[data-theme="light"] .pond-shore { border-color: #fff5; box-shadow: inset 0 0 50px #4f5b361f; }
+.pond-caption {
+  position: absolute; bottom: 26px; left: 12%; right: 12%; text-align: center;
+  font: 0.6rem var(--font-mono); letter-spacing: 0.08em; color: #d2c19c99;
+  pointer-events: none;
+}
+[data-theme="light"] .pond-caption { color: #414c3d; }
+.pond-access { max-width: 55rem; margin: 1rem auto 0; color: var(--text-dim); font-size: 0.72rem; text-align: center; }
+
+@media (max-width: 620px) {
+  .life-toggle { top: 12px; bottom: auto; right: 12px; font-size: 0.6rem; padding: 0.5rem 0.8rem; }
+  .pond-section { padding-top: 3rem; }
+  .pond-heading { display: block; }
+  .pond-heading > p { margin-top: 1rem; }
+  .pond-water { height: 470px; border-radius: 38% 40% 32% 34% / 7% 9% 8% 9%; }
+  .pond-caption { bottom: 20px; font-size: 0.52rem; letter-spacing: 0; }
 }
 
 .ambient { position: fixed; inset: 0; z-index: 0; pointer-events: none; overflow: hidden; }
@@ -1457,5 +1530,4 @@ main { position: relative; z-index: 1; }
   }
   .reveal { opacity: 1; transform: none; }
   .grain { animation: none; }
-  #dust { display: none; }
 }
