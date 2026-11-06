@@ -1,23 +1,55 @@
-# Refreshing Toni's skill snapshot
+# Toni’s original Fluxora-rendered skill tree
 
-The portfolio serves two static WebP images, an aggregate-only JSON summary,
-and an independently built interactive SVG explorer at `skill-tree.html`.
-The explorer reads that same summary once; it supports mouse/touch pan and zoom,
-keyboard controls, category highlighting and full screen. It is live-rendered
-in the browser, NOT live-connected to the VPS. Refreshing the summary refreshes
-its geometry automatically on the next page load. It publishes no individual
-skill names, bodies or personal history, and adds no library or background loop.
+The public page is `/skill-tree/` (GitHub Pages redirects `/skill-tree` to the
+trailing-slash directory). The homepage’s former image card and independent
+SVG explorer have been removed. A small footer link opens the tree. The old
+`/skill-tree.html` address forwards to the new page.
 
-It does not embed Fluxora, run a plugin, call a model, expose Hermes, or poll a server.
-The image is a decorative inventory snapshot, not proof of proficiency or authorship.
-Fluxora's attribution stays on the exported image and next to it on the page.
+## What actually renders it
 
-## Export metadata locally
+`skill-tree/page.js` loads the genuine, unmodified module from:
+https://hermes-explainer.fluxora.build/grow.js
 
-Use Python 3 (standard library only). Supply the profile skills root and every
-configured external skills directory explicitly. The exporter follows links,
-deduplicates real skill files, rejects conflicting names, and skips hidden archives.
-It reads only manifest identifiers and filesystem metadata; never SKILL.md bodies.
+The page uses that module’s own WebGL shaders, geometry, blue lighting, portrait
+card, animation, stage previews, replay and image export. There is no independent
+SVG reconstruction or screenshot fallback. Native browser page zoom remains
+available. Do not claim the original renderer has arbitrary 3D orbit/pan controls.
+
+The upstream module is pinned with SHA-384 subresource integrity:
+`sha384-ewNt+0vUwRUYbgt4WHbSWcu0k+RpdyR3XJbW/KEOwCSOfhcCInKnG9OaGJo/sNUb`.
+
+The original module is served by Fluxora, not copied into this repository. A
+public reuse license for this Hermes renderer was not located; Fluxora’s MIT
+`waterfall` repository is a different project. Do not describe this renderer as
+MIT-licensed or vendor it on that assumption. Credits and font-license links are
+retained. The fonts are also loaded from the original host under the SIL OFL.
+The page therefore needs that host and WebGL 2. If either fails, it shows an
+honest error and links to the original project and public inventory, not a fake
+replacement tree. A changed upstream module fails the integrity check closed.
+
+## Public data and privacy
+
+`assets/toni-skills-summary.json` contains aggregate inventory counts, category
+counts, bundled counts per category and the oldest added file date. The browser
+expands them into anonymous `playbook-001` records for `window.__grow.list`.
+No private skill names, bodies, paths, individual modification dates, memories,
+conversations or credentials enter the public site. Anonymous labels affect tip
+assignment; this is the original renderer with sanitized inputs, not a claim of
+pixel-identical geometry to an export made with private skill labels.
+
+Category/provenance totals are real. All anonymous added records use the oldest
+added file date because the original stage calculation needs that aggregate.
+Imported file dates are not learning dates; "grown here" includes imports and
+is not proof of agent authorship. The public page states these limitations.
+This is a manual inventory snapshot, not a live VPS feed or telemetry service.
+
+The host CSP limits data connections to the site itself. The audited upstream
+module has no fetch, XHR, beacon, WebSocket or storage calls. Re-audit new bytes
+before updating the integrity pin. The site has no private API or credentials.
+
+## Manual refresh
+
+Use Python 3 and explicitly supply every configured skill root:
 
 ```sh
 python scripts/export-hermes-skills.py \
@@ -26,57 +58,27 @@ python scripts/export-hermes-skills.py \
   --output "$HERMES_HOME/cache/scratch/toni-tree-renderer-input.json" \
   --summary-output assets/toni-skills-summary.json
 python -m unittest discover -s scripts -p 'test_*.py' -v
+node --check skill-tree/page.js
 ```
 
-The renderer input is private, mode 0600, and must stay OUTSIDE the public repo.
-The summary includes counts, categories and a snapshot date, but no skill names,
-local paths, messages, memories, credentials, or full skill contents.
-The inventory includes installed-but-disabled normal folders, not hidden archives.
+The full renderer input is private, mode 0600, and must stay OUTSIDE this public
+repository. The exporter reads manifest identifiers and filesystem metadata,
+never skill bodies. It deduplicates linked files and includes installed normal
+folders, including disabled skills, while excluding hidden archives.
 
-## Render and check
+Preview `/skill-tree/`. Require `window.__toniTree.status === 'ready'`, verify
+`window.__grow.state()` totals against the summary, inspect the screenshot and
+exercise stage preview/back/replay/export plus narrow/mobile and desktop views.
+Test unavailable module, missing inventory and WebGL-off fallbacks. Check the
+homepage is restored, its footer link works, and the old URL forwards. Run the
+SEO check, `git diff --check`, and review all staged files for private inputs.
+Publish through a normal PR and verify the exact live files and browser behavior.
 
-Ask Hermes to render the exported metadata at:
-https://hermes-explainer.fluxora.build/?grow=1
+## Upstream refresh
 
-The site's normal folder/list workflows classify bundled skills against a hardcoded
-catalog, which can disagree with an older profile's actual `.bundled_manifest`.
-Our export therefore also provides `renderer_skills` in the renderer's normalized
-schema, with provenance determined from the REAL local manifest. In an automated
-browser, use `window.__grow.list(payload.renderer_skills, 'folder', true)`, then
-`window.__grow.name('Toni')`, `window.__grow.skip()` and `window.__grow.png(true)`.
-Read the resulting `window.__grow.state()` back and require its total, grown and
-area counts to match the exported summary before saving the image. This browser
-API is unofficial and may change; stop and inspect if it does. The current tested
-renderer is the Fluxora `/grow.js` served on November 6, 2026.
-
-Only sanitized metadata enters the browser. Do not grant the site a real whole
-folder or supply any memory/config/credential files. The script was reviewed for
-network sends before first use; recheck if the hosted renderer changes.
-
-The site's card says "grown here"; that includes imports and does NOT establish
-who wrote a skill. Its age/maturity is based on file modification dates, not a
-verified learning timeline. Keep the adjacent caveat on the portfolio.
-
-## Optimize and publish
-
-Convert the exported 1080×1350 PNG to WebP (Pillow is an optional LOCAL render-time
-tool, not a website dependency):
-
-```python
-from PIL import Image
-image = Image.open('assets/toni-skill-tree.png').convert('RGB')
-for width, suffix in [(1080, ''), (640, '-640')]:
-    variant = image.copy()
-    variant.thumbnail((width, 9999))
-    variant.save(f'assets/toni-skill-tree{suffix}.webp', 'WEBP', quality=82, method=6)
-```
-
-Update counts/date/alt text in the `#toni-skill-tree` block of `index.html` from the
-summary. Check narrow mobile, desktop, both themes, keyboard focus, full-size and
-attribution links, and `git diff --check`. Commit ONLY the static images, aggregate
-summary and intended source changes. The full PNG and renderer input are ignored.
-Publish through the repo's normal GitHub Pages workflow and read the live image,
-summary and page back before calling it done. Close the renderer afterward.
-
-There is deliberately no refresh schedule. Regenerate after meaningful skill
-changes rather than creating an always-running service for a decorative image.
+Download and review the new module locally. Confirm publisher, API, network and
+storage behavior and required fonts. Recompute SHA-384 over its exact bytes,
+change the integrity constant, and repeat the browser and negative-path tests.
+Never remove integrity or broaden the CSP merely to silence a loading error.
+A truly self-contained vendored port requires confirmed redistribution rights
+for the exact Hermes renderer, not another Fluxora project’s license.

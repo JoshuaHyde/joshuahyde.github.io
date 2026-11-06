@@ -12,13 +12,13 @@ Notable details:
   gradient, inner plate) that slides between sections with spring easing.
 - Canvas particle field with depth parallax, film grain overlay, scroll-driven
   reveals, 3D tilt cards, magnetic buttons, custom cursor.
-- Toni's Hermes skill-tree card is a lazy-loaded static image, with a sanitized
-  metadata exporter and a manual refresh workflow in [scripts/SKILL-TREE.md](scripts/SKILL-TREE.md).
-  The card links to [skill-tree.html](skill-tree.html), an independently built SVG
-  explorer with wheel/pinch zoom, drag panning, keyboard controls, category
-  highlighting and full screen. It uses the same aggregate-only inventory JSON,
-  not private skill names or a live VPS feed. It adds no libraries, plugin,
-  iframe, external API calls, polling or background service.
+- [Toni’s skill tree](https://joshuahyde.github.io/skill-tree/) is a separate page using Fluxora’s genuine
+  WebGL renderer, loaded unchanged from its public host with SHA-384 integrity.
+  Its original shaders, tree, card, stage previews, replay and export controls
+  are retained. Anonymous category/provenance aggregates shape the tree; no
+  private skill names, contents, conversations or credentials are published.
+  The old image card and independent SVG have been removed. Details and refresh
+  instructions are in [scripts/SKILL-TREE.md](scripts/SKILL-TREE.md).
 - Dark theme by default with a full light theme behind the toggle.
 - Respects `prefers-reduced-motion`; no horizontal overflow down to 320px.
 - Liquid metal (hero gem + contact banner) renders with WebGL2, adapted from

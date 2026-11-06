@@ -1,5 +1,5 @@
 {
-  "schema_version": 1,
+  "schema_version": 2,
   "agent": "Toni",
   "snapshot_date": "2026-11-06",
   "installed_skills": 67,
@@ -21,6 +21,15 @@
     "social-media": 2,
     "software-development": 6
   },
+  "bundled_by_category": {
+    "autonomous-ai-agents": 2,
+    "creative": 1,
+    "productivity": 1,
+    "research": 1,
+    "social-media": 2,
+    "software-development": 1
+  },
+  "oldest_added_file_date": "2026-02-03",
   "scope": "Installed SKILL.md inventory, including disabled skills; linked files deduplicated.",
   "caveat": "Added/imported does not prove agent authorship. File modification dates are not learning dates.",
   "renderer": "https://hermes-explainer.fluxora.build/?grow=1"

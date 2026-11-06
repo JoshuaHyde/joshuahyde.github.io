@@ -83,12 +83,15 @@ def export(roots: list[Path], output: Path, summary_output: Path | None):
     payload = {'renderer_skills': normalized, 'synthetic_files': files}
     output.write_text(json.dumps(payload, indent=2) + '\n')
     output.chmod(0o600)
-    summary = {'schema_version': 1, 'agent': 'Toni',
+    local_dates = [row['modified'] for row in normalized if row['provenance'] == 'local']
+    summary = {'schema_version': 2, 'agent': 'Toni',
                'snapshot_date': datetime.now(timezone.utc).date().isoformat(),
                'installed_skills': len(entries),
                'bundled_skills': sum(e['bundled'] for e in entries),
                'added_or_imported_skills': sum(not e['bundled'] for e in entries),
                'categories': dict(sorted(Counter(e['category'] for e in entries).items())),
+               'bundled_by_category': dict(sorted(Counter(e['category'] for e in entries if e['bundled']).items())),
+               'oldest_added_file_date': min(local_dates) if local_dates else None,
                'scope': 'Installed SKILL.md inventory, including disabled skills; linked files deduplicated.',
                'caveat': 'Added/imported does not prove agent authorship. File modification dates are not learning dates.',
                'renderer': 'https://hermes-explainer.fluxora.build/?grow=1'}
