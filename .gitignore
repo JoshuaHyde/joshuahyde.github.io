@@ -1,0 +1,4 @@
+__pycache__/
+*.py[cod]
+*renderer-input*.json
+assets/toni-skill-tree.png

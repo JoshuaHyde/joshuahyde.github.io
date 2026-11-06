@@ -1,0 +1,27 @@
+{
+  "schema_version": 1,
+  "agent": "Toni",
+  "snapshot_date": "2026-11-06",
+  "installed_skills": 67,
+  "bundled_skills": 8,
+  "added_or_imported_skills": 59,
+  "categories": {
+    "autonomous-ai-agents": 3,
+    "creative": 8,
+    "data-science": 1,
+    "general": 12,
+    "github": 6,
+    "media": 1,
+    "mlops": 7,
+    "openclaw-imports": 10,
+    "productivity": 5,
+    "research": 4,
+    "security": 1,
+    "smart-home": 1,
+    "social-media": 2,
+    "software-development": 6
+  },
+  "scope": "Installed SKILL.md inventory, including disabled skills; linked files deduplicated.",
+  "caveat": "Added/imported does not prove agent authorship. File modification dates are not learning dates.",
+  "renderer": "https://hermes-explainer.fluxora.build/?grow=1"
+}

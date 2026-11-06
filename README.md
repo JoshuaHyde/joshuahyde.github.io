@@ -12,6 +12,9 @@ Notable details:
   gradient, inner plate) that slides between sections with spring easing.
 - Canvas particle field with depth parallax, film grain overlay, scroll-driven
   reveals, 3D tilt cards, magnetic buttons, custom cursor.
+- Toni's Hermes skill-tree card is a lazy-loaded static image, with a sanitized
+  metadata exporter and a manual refresh workflow in [scripts/SKILL-TREE.md](scripts/SKILL-TREE.md).
+  It adds no plugin, iframe, API calls, or background service.
 - Dark theme by default with a full light theme behind the toggle.
 - Respects `prefers-reduced-motion`; no horizontal overflow down to 320px.
 - Liquid metal (hero gem + contact banner) renders with WebGL2, adapted from
