@@ -85,13 +85,14 @@ async function start() {
   note.append(licenses);
   document.querySelector('.gp-foot').append(note);
   document.getElementById('tree-status').remove();
+  document.documentElement.classList.add('toni-ready');
   window.__toniTree.status = 'ready';
   window.__toniTree.inventory = data;
   window.__toniTree.state = state;
 }
 start().catch(error => {
   document.documentElement.classList.add('toni-error');
-  document.querySelectorAll('.gp-lift').forEach(element => { element.hidden = true; });
+  document.querySelectorAll('body > .gp:not(#tree-status)').forEach(element => { element.hidden = true; });
   const status = document.getElementById('load-status');
   if (status) status.textContent = 'The animated tree could not load. It needs WebGL 2 and access to Fluxora’s original renderer. The original-project and inventory links below still work.';
   document.title = TITLE;

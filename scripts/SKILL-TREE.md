@@ -2,8 +2,9 @@
 
 The public page is `/skill-tree/` (GitHub Pages redirects `/skill-tree` to the
 trailing-slash directory). The homepage’s former image card and independent
-SVG explorer have been removed. A small footer link opens the tree. The old
-`/skill-tree.html` address forwards to the new page.
+SVG explorer have been removed. A small footer link opens the tree. The obsolete
+`/skill-tree.html` file is removed: GitHub Pages otherwise resolves `/skill-tree`
+to that HTML alias ahead of the directory, preventing the proper HTTP redirect.
 
 ## What actually renders it
 
@@ -70,7 +71,8 @@ Preview `/skill-tree/`. Require `window.__toniTree.status === 'ready'`, verify
 `window.__grow.state()` totals against the summary, inspect the screenshot and
 exercise stage preview/back/replay/export plus narrow/mobile and desktop views.
 Test unavailable module, missing inventory and WebGL-off fallbacks. Check the
-homepage is restored, its footer link works, and the old URL forwards. Run the
+homepage is restored, its footer link works, and `/skill-tree` redirects once to
+`/skill-tree/`. The obsolete `.html` URL should return 404. Run the
 SEO check, `git diff --check`, and review all staged files for private inputs.
 Publish through a normal PR and verify the exact live files and browser behavior.
 
