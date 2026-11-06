@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#080b17">
+  <title>Toni’s interactive Hermes skill tree — Joshua Hyde</title>
+  <meta name="description" content="Explore Toni’s real installed Hermes skill inventory as a browser-rendered tree. Zoom, pan and highlight categories without exposing private agent data.">
+  <link rel="canonical" href="https://joshuahyde.github.io/skill-tree.html">
+  <meta property="og:title" content="Toni’s interactive Hermes skill tree">
+  <meta property="og:description" content="A real skill-inventory snapshot rendered as an interactive electric-blue grove.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://joshuahyde.github.io/skill-tree.html">
+  <meta property="og:image" content="https://joshuahyde.github.io/assets/toni-skill-tree.webp">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="skill-tree.css">
+  <script src="skill-tree.js" defer></script>
+</head>
+<body>
+  <header>
+    <a href="./#toni-skill-tree">← Joshua Hyde</a>
+    <a href="assets/toni-skill-tree.webp" target="_blank" rel="noopener">Original Fluxora image ↗</a>
+  </header>
+  <main>
+    <div class="intro">
+      <p class="eyebrow">Hermes / installed playbooks</p>
+      <h1>Toni’s <em>skill tree.</em></h1>
+      <p>Drawn in your browser, not a screenshot. Zoom in, drag around, or choose a branch.</p>
+      <p id="snapshot" class="muted" role="status" aria-live="polite">An installed-skill inventory snapshot, rendered locally.</p>
+    </div>
+    <div class="explorer">
+      <section class="scene-shell" aria-label="Interactive skill-tree explorer">
+        <div class="toolbar" role="group" aria-label="Tree view controls">
+          <button id="zoom-out" type="button" aria-label="Zoom out" disabled>−</button>
+          <output id="zoom-value" aria-live="off">100%</output>
+          <button id="zoom-in" type="button" aria-label="Zoom in" disabled>+</button>
+          <button id="fit" type="button" disabled>Fit tree</button>
+          <button id="fullscreen" type="button" disabled>Full screen</button>
+        </div>
+        <svg id="tree" viewBox="-600 -500 1200 1000" xmlns="http://www.w3.org/2000/svg"
+             tabindex="0" role="group" aria-label="Skill tree. Drag to pan; pinch or use plus and minus to zoom. Arrow keys pan; zero fits the tree. Choose a category below for details.">
+          <defs>
+            <linearGradient id="wood" x1="0" y1="1" x2="0" y2="0"><stop stop-color="#23394c"/><stop offset="0.45" stop-color="#3989ff"/><stop offset="1" stop-color="#a2c3ff"/></linearGradient>
+            <filter id="glow" x="-100%" y="-100%" width="300%" height="300%"><feGaussianBlur stdDeviation="2.2"/></filter>
+          </defs>
+          <g id="roots" aria-hidden="true"></g>
+          <g id="trunk" aria-hidden="true"></g>
+          <g id="branches"></g>
+        </svg>
+        <img id="fallback" src="assets/toni-skill-tree-640.webp" width="640" height="800" alt="The static electric-blue tree, available if interactive rendering fails.">
+        <p class="gesture-hint">Drag · pinch or scroll to zoom · keyboard + / − / arrows / 0</p>
+      </section>
+      <aside class="details" aria-labelledby="branch-title">
+        <p class="eyebrow">Inspect the grove</p>
+        <h2 id="branch-title">All branches</h2>
+        <p id="branch-info" aria-live="polite">Choose a category to highlight its branch and installed-skill count.</p>
+        <button id="show-all" type="button" aria-pressed="true" disabled>Show everything</button>
+        <div id="categories" class="categories" role="group" aria-label="Skill categories"></div>
+      </aside>
+    </div>
+    <p class="disclosure">This is a manually refreshed inventory snapshot, not a live feed from the VPS.
+      Each tip represents an installed playbook, including disabled ones. Private skill names, contents,
+      conversations and credentials are not published. The drawing is illustrative, not a learning-age or proficiency score.</p>
+    <noscript><p>The interactive view needs JavaScript. You can still <a href="assets/toni-skill-tree.webp">open and zoom the full-size image</a>.</p></noscript>
+  </main>
+  <footer><a href="./#work">Back to the projects</a><a href="assets/toni-skills-summary.json">Inventory data</a><span>Original card by <a href="https://hermes-explainer.fluxora.build/?grow=1" target="_blank" rel="noopener">Fluxora</a>; this vector explorer is independently built.</span></footer>
+</body>
+</html>
