@@ -69,6 +69,23 @@ class ExportTests(unittest.TestCase):
         self.assertNotIn('reader', summary.read_text())
         self.assertNotIn(str(self.root), summary.read_text())
         self.assertEqual(sum(result['categories'].values()), result['installed_skills'])
+    def test_public_category_provenance_aggregates(self):
+        self.skill('research/reader')
+        self.skill('creative/painter')
+        (self.root/'.bundled_manifest').write_text('reader:original-hash\n')
+        result = exporter.export([self.root], self.base/'input.json', self.base/'summary.json')
+        self.assertEqual(result['schema_version'], 2)
+        self.assertEqual(result['bundled_by_category'], {'research': 1})
+        self.assertEqual(result['added_or_imported_skills'], 1)
+        self.assertRegex(result['oldest_added_file_date'], r'^\d{4}-\d{2}-\d{2}$')
+
+    def test_all_bundled_has_no_oldest_added_date(self):
+        self.skill('research/reader')
+        (self.root/'.bundled_manifest').write_text('reader:original-hash\n')
+        result = exporter.export([self.root], self.base/'input.json', None)
+        self.assertEqual(result['added_or_imported_skills'], 0)
+        self.assertIsNone(result['oldest_added_file_date'])
+
     def test_invalid_skill_identifier_fails(self):
         self.skill('research/not a skill')
         with self.assertRaises(ValueError):
