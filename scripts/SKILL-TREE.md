@@ -1,6 +1,13 @@
 # Refreshing Toni's skill snapshot
 
-The portfolio serves two static WebP images and an aggregate-only JSON summary.
+The portfolio serves two static WebP images, an aggregate-only JSON summary,
+and an independently built interactive SVG explorer at `skill-tree.html`.
+The explorer reads that same summary once; it supports mouse/touch pan and zoom,
+keyboard controls, category highlighting and full screen. It is live-rendered
+in the browser, NOT live-connected to the VPS. Refreshing the summary refreshes
+its geometry automatically on the next page load. It publishes no individual
+skill names, bodies or personal history, and adds no library or background loop.
+
 It does not embed Fluxora, run a plugin, call a model, expose Hermes, or poll a server.
 The image is a decorative inventory snapshot, not proof of proficiency or authorship.
 Fluxora's attribution stays on the exported image and next to it on the page.
